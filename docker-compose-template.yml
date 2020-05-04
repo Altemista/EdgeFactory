@@ -1,0 +1,90 @@
+# This docker-compose file will deploy an Cluster of an Industrial Factory Simulation with the approches of edge computing.
+# 
+# It must exist an Airtable with jobs with remain_job_time > 0. At the end after all jobs have been done by the machines an csv file will be uploaded to the
+# cloud with the machine values from the start to the end of the simulation while doing all unfinished jobs. If new jobs get pushed to the Airtable it will start to add
+# new entries to the csv file an will upload the file at the end of all jobs again to the cloud. At the start of the Simulation an KI Model will be downloaded
+# from the cloud to apply KI Prediction.
+# 
+# Note: Every time the Simulation get started all values and files in the containers will be resetted.
+# 
+# It will start 5 container for the Simulation:
+#   * mosquitto (mqtt broker)
+#     - image: eclipse-mosquitto
+# 
+#   * edge-device
+#     - image: sametankaoglu/edge-device:v1
+#     - AIRTABLE_TABLE_NAME, AIRTABLE_API_KEY, AIRTABLE_BASE_KEY, CONNECTION_STRING_TO_AZURE_STORAGE, CONTAINER_NAME, PATH_TO_ML_FILE -> must be setted right for your
+#     individual usage.
+#     - RECORD_MACHINE_DATA -> if True, at the end an csv file will be created and pushed to the cloud. If false, nothing will recorded and pushed to the cloud
+#     - PREDICTION -> If True, an KI-Model will be downloaded, setted and used in the simulation. If False -> No prediction and the smallest job will deployed by the edge device
+#
+#   * machine0
+#     - image: sametankaoglu/machine:v1
+# 
+#   * machine1
+#     - image: sametankaoglu/machine:v1
+# 
+#   * machine2
+#     - image: sametankaoglu/machine:v1
+# 
+# To start the simulation go to the directory where docker-compose.yml is and check if the mosquitto folder from the repository is existing.
+# Then type in terminal: docker-compose up. It should start then. 
+# When its throw an error check the env variables that will be setted in the edge-device over the compose file. It must be the right keys for your table, storage.. etc. 
+# An other reason can be that some MACHINE_ID is setted with the same id. Or the ports that are used arent open.
+# If these dont help check the logs from the container or the thrown error in the terminal.
+
+
+version: "2"
+
+services:
+  mosquitto:
+    image: eclipse-mosquitto
+    container_name: mqtt
+    network_mode: host
+    restart: always
+    volumes:
+      - ./mosquitto/config:/mosquitto/config
+      - ./mosquitto/data:/mosquitto/data
+      - ./mosquitto/log:/mosquitto/log
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+
+  edge-device:
+    image: sametankaoglu/edge-device:v1
+    restart: always
+    container_name: edge-device
+    network_mode: host
+    environment: 
+      - AIRTABLE_TABLE_NAME=<Get this from Airtable after creating an table>
+      - AIRTABLE_API_KEY=<Get this from Airtable after creating an table> 
+      - AIRTABLE_BASE_KEY=<Get this from Airtable after creating an table>
+      - CONNECTION_STRING_TO_AZURE_STORAGE=<Get this from Azure after creating an storage>
+      - CONTAINER_NAME=<Get this from Azure after creating an storage>
+      - RECORD_MACHINE_DATA=True
+      - PREDICTION=True
+      - PATH_TO_ML_FILE=<KI model name in storage>
+      
+  machine0:
+    image: sametankaoglu/machine:v1
+    restart: always
+    container_name: machine_0
+    network_mode: host
+    environment: 
+      - MACHINE_ID=0
+  
+  machine1:
+    image: sametankaoglu/machine:v1
+    restart: always
+    container_name: machine_1
+    network_mode: host
+    environment: 
+      - MACHINE_ID=1
+
+  machine2:
+    image: sametankaoglu/machine:v1
+    restart: always
+    container_name: machine_2
+    network_mode: host
+    environment: 
+      - MACHINE_ID=2

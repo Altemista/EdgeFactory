@@ -1,0 +1,11 @@
+# To execute -> pip3 install -r requirements.txt
+airtable-python-wrapper
+paho-mqtt
+pandas
+sklearn
+azure-iot-device
+azure-iot-hub
+azure-iothub-service-client
+azure-iothub-device-client
+azure-storage-blob
+joblib
