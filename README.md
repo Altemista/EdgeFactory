@@ -38,7 +38,7 @@ In the follow all subscriptions are listed and linked with the official site for
 0. Download the repository and open an terminal in it.
 
 
-1. Upload the KI-model to the **storage/container/yourcontainername** that is in the Repository over the browser.
+1. Over an browser upload the trained KI-model that is in the Repository (EdgeFactory/**linear_regression_38%**) to the **storage/container/yourcontainername** in Azure
 
 
 2. Paste the saved **keys**, **tablename** and **ki-model-name (repository)** in the **"docker-compose-template.yml"** and rename it to **"docker-compose.yml"**
@@ -58,7 +58,7 @@ In the follow all subscriptions are listed and linked with the official site for
 
 
 5. When the joblist is done it will upload an **csv file** to the storage container in the cloud.
-    - you can find the file over **storage/container/yourcontainername**
+    - you can find the file over **storage/container/yourcontainername** in Azure
     - this file u can use to **train** an new model and upload to the container. But it must be the **same name** as in the compose-file.
       - to train an new model only **scikit-learn models** are supported!
     - after generate an new model to use u must **start** the compose-file again with the **right ki-model** name.
