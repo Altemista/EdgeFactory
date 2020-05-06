@@ -6,17 +6,17 @@ The aim of the present practical part of the bachelor thesis is to apply pattern
 
 # Installation
 
-### Operating Systems
+## Operating Systems
 This guide is written for Linux based Operating Systems.
 
-### Programs/Tools and Subscriptions/Keys
-#### Programs/tools
+## Programs/Tools and Subscriptions/Keys
+### Programs/tools
 In the follow all programms/tools are listed and linked with the official installation instruction for starting the environment.
 - [Docker](https://docs.docker.com/engine/install/ubuntu/)
   - Make sure [docker-compose](https://docs.docker.com/compose/install/) is installed.
 - [Python 3.6](https://docs.python-guide.org/starting/install3/linux/) (to run environment locally)
 
-#### Subscriptions/Keys
+### Subscriptions/Keys
 In the follow all subscriptions are listed and linked with the official site for subscribing. This subscriptions and keys are required for starting the environment.
 
 - [Airtable](https://airtable.com/signup) (Free account is sufficient)
@@ -28,12 +28,12 @@ In the follow all subscriptions are listed and linked with the official site for
   - Click on account
     - Copy **api key** an save it!
     - Click on the "Airtable API" link in the description above the api key -> click on your base -> copy the **base key** beginning with "app.." -> save it!
-- [Azure](https://azure.microsoft.com/de-de/) (paid subscription is sufficient)
+- [Azure](https://azure.microsoft.com/de-de/) (paid subscription is required)
   - [Storage account](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-create?tabs=azure-portal) need to be created 
     - Open Keys -> Save **connection string**!
     - Open your storage account -> click container -> Create the new container by clicking ‘+ Container’ then choosing a Name and Access type. (Save the **container name**!)
 
-### Usage
+## Usage
  
 0. Download the repository and open an terminal in it.
 
@@ -54,6 +54,7 @@ In the follow all subscriptions are listed and linked with the official site for
     - go to the folder where the compose file is and run over terminal: ```docker-compose up```
     - this will download and start the containers.
     - after this it will start the environment and the simulation will do the jobs.
+    - during the simulation you can see how the jobs are processed. Just open the table over the browser or look at the terminal. 
 
 
 5. When the joblist is done it will upload an **csv file** to the storage container in the cloud.
